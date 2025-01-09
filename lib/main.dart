@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/provider/my_provider.dart';
@@ -8,9 +9,14 @@ import 'package:todo/theme/dark_theme.dart';
 import 'package:todo/theme/light__theme.dart';
 import 'package:todo/theme/my_theme.dart';
 
+import 'firebase_options.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
       ChangeNotifierProvider(
         create: (context)=>MyProvider(),
@@ -48,3 +54,4 @@ class MyApp extends StatelessWidget {
 
   }
 }
+
