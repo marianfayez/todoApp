@@ -18,11 +18,16 @@ class LightTheme extends MyTheme{
   ThemeData get themeData => ThemeData(
     primaryColor: primaryColor,
     hintColor: backgroundColor,
+    focusColor: Color(0xFF7B7B7B),
     appBarTheme: AppBarTheme(
       centerTitle: true,
       backgroundColor: backgroundColor
     ),
     scaffoldBackgroundColor: backgroundColor,
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primaryColor,
+        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(30),borderSide: BorderSide(width: 4,color: Colors.white))
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: primaryColor,
           showSelectedLabels: true,
@@ -35,8 +40,8 @@ class LightTheme extends MyTheme{
       titleSmall:TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: textColor),
       titleMedium:TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: primaryColor),
       titleLarge:TextStyle(fontWeight: FontWeight.bold,fontSize: 26,color: primaryColor),
-      headlineSmall:TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: primaryColor),
-      headlineMedium:TextStyle(fontWeight: FontWeight.w500,fontSize: 20,color: Colors.white),
+      headlineSmall:TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: Colors.white),
+      headlineMedium:TextStyle(fontWeight: FontWeight.w700,fontSize: 24,color: Colors.white),
 
     )
   );

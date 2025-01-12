@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:todo/screens/log_in.dart';
 
 import '../cache_helper/cache_helper.dart';
 
@@ -15,28 +17,31 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var pageDecoration = PageDecoration(
         titleTextStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700,color: Color(0xFF5669FF)),
-        bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      bodyFlex:2,
+      bodyAlignment: Alignment.centerLeft,
+      //  bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
         pageColor: Color(0xFFF2FEFF),
         imagePadding: EdgeInsets.zero,
-        imageFlex:2
+        imageFlex:3
 
     );
     return IntroductionScreen(
       globalBackgroundColor:  Color(0xFFF2FEFF),
       globalHeader: _buildImage("evently_logo.png"),
-      done: Text("Done",style: Theme.of(context).textTheme.titleSmall),
+      done: Image.asset("assets/icons/next.png"),
       showDoneButton: true,
       onDone:(){
         CacheHelper.saveEligibility();
+        Navigator.pushReplacementNamed(context, LogInScreen.routeName);
       },
-      next: Text("Next",style: Theme.of(context).textTheme.titleSmall,),
+      next: Image.asset("assets/icons/next.png"),
       showNextButton: true,
-      dotsDecorator: DotsDecorator(color: Color(0xFF707070),
-          activeColor: Color(0xFFFFD482)),
-      skip: Text("Skip",style: Theme.of(context).textTheme.titleSmall),
-      showSkipButton: true,
-      onSkip: (){
-      },
+      nextStyle: ButtonStyle(alignment: Alignment.bottomRight ),
+      dotsDecorator: DotsDecorator(color: Color(0xFF1C1C1C),
+          activeColor: Theme.of(context).primaryColor),
+
+      back: Image.asset("assets/icons/back.png"),
+      showBackButton: true,
       pages: [
         PageViewModel(
           title: "Find Events That Inspire You",
