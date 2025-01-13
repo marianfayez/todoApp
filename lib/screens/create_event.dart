@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -31,66 +32,76 @@ class CreateEvent extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(16.r),
-                    child: Image.asset(
-                      "assets/images/${provider.eventCategories[provider.selectedCategory]}.png",
-                      height: 220.h,fit: BoxFit.fill,
-                    )),
-                SizedBox(
-                  height: 16.h,
-                ),
-                SizedBox(
-                  height: 40.h,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => InkWell(
-                            onTap: () {
-                              provider.changeCategory(index);
-                            },
-                            child: CategoryEventItem(
-                              text: provider.eventCategories[index],
-                              isSelected: provider.selectedCategory == index,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(16.r),
+                      child: Image.asset(
+                        "assets/images/${provider.eventCategories[provider.selectedCategory]}.png",
+                        height: 220.h,fit: BoxFit.fill,
+                      )),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => InkWell(
+                              onTap: () {
+                                provider.changeCategory(index);
+                              },
+                              child: CategoryEventItem(
+                                text: provider.eventCategories[index],
+                                isSelected: provider.selectedCategory == index,
+                              ),
                             ),
-                          ),
-                      separatorBuilder: (context, index) => SizedBox(
-                            width: 10.w,
-                          ),
-                      itemCount: provider.eventCategories.length),
-                ),
-                SizedBox(height: 16.h,),
-                Text("Title",style: Theme.of(context).textTheme.titleSmall,),
-                SizedBox(height: 8.h,),
-                CustomTextField(text: "Event Title", icon: Icon(Icons.edit_note_rounded)),
-                SizedBox(height: 8.h,),
-                Text("Description",style: Theme.of(context).textTheme.titleSmall,),
-                SizedBox(height: 8.h,),
-
-                TextField(
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                      labelText: "Event Description",
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(color: Theme.of(context).focusColor),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide(
-                              width: 1, color: Theme.of(context).focusColor)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide(
-                              width: 1, color: Theme.of(context).focusColor)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide(
-                              width: 1, color: Theme.of(context).focusColor))),
-                )
-              ],
+                        separatorBuilder: (context, index) => SizedBox(
+                              width: 10.w,
+                            ),
+                        itemCount: provider.eventCategories.length),
+                  ),
+                  SizedBox(height: 16.h,),
+                  Text("Title",style: Theme.of(context).textTheme.titleSmall,),
+                  SizedBox(height: 8.h,),
+                  CustomTextField(text: "Event Title", icon: Icon(Icons.edit_note_rounded)),
+                  SizedBox(height: 8.h,),
+                  Text("Description",style: Theme.of(context).textTheme.titleSmall,),
+                  SizedBox(height: 8.h,),
+              
+                  TextField(
+                    maxLines: 4,
+                    decoration: InputDecoration(
+                        labelText: "Event Description",
+                        labelStyle: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(color: Theme.of(context).focusColor),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                                width: 1, color: Theme.of(context).focusColor)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                                width: 1, color: Theme.of(context).focusColor)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                                width: 1, color: Theme.of(context).focusColor))),
+                  ),
+                  SizedBox(height: 18.h,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.asset("assets/icons/event.png",color: Colors.black,),
+                      Text("Choose Date",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).primaryColor),)
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );
