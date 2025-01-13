@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/screens/create_event.dart';
 import 'package:todo/screens/tabs/favorite_tab.dart';
 import 'package:todo/screens/tabs/home_tab.dart';
 import 'package:todo/screens/tabs/map_tab.dart';
@@ -27,7 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
       },),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.pushNamed(context, CreateEvent.routeName);
+        },
       child: Icon(Icons.add,color: Colors.white,),),
       body: tabs[selectedIndex],
     );

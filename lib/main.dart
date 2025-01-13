@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/provider/my_provider.dart';
+import 'package:todo/screens/create_event.dart';
 import 'package:todo/screens/home_screen.dart';
 import 'package:todo/screens/introduction_screen.dart';
 import 'package:todo/screens/log_in.dart';
@@ -12,11 +13,12 @@ import 'package:todo/screens/register_screen.dart';
 import 'package:todo/theme/dark_theme.dart';
 import 'package:todo/theme/light__theme.dart';
 import 'package:todo/theme/my_theme.dart';
-
+import 'cache_helper/cache_helper.dart';
 import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -49,7 +51,8 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        initialRoute: IntroductionScreen.routeName,
+        initialRoute: CacheHelper.getEligibility()==true?
+        LogInScreen.routeName: IntroductionScreen.routeName,
         theme: light.themeData,
         darkTheme: dark.themeData,
         themeMode: provider.themeMode,
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
           LogInScreen.routeName:(context)=>LogInScreen(),
           RegisterScreen.routeName:(context)=>RegisterScreen(),
           HomeScreen.routeName:(context)=>HomeScreen(),
-
+          CreateEvent.routeName:(context)=>CreateEvent(),
         },
       
       ),

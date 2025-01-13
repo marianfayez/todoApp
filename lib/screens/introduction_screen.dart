@@ -8,6 +8,8 @@ import 'package:todo/theme/light__theme.dart';
 import 'package:todo/theme/my_theme.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+import '../cache_helper/cache_helper.dart';
+
 class IntroductionScreen extends StatelessWidget {
   static const String routeName="Introduction Screen";
   const IntroductionScreen({super.key});
@@ -20,7 +22,8 @@ class IntroductionScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           onPressed: (){
-            Navigator.pushNamed(context, OnboardingScreen.routeName);
+            CacheHelper.saveEligibility();
+            Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
           },
           style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 16),

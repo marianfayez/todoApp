@@ -15,7 +15,6 @@ class CustomTextField extends StatelessWidget {
               .titleSmall!
               .copyWith(color: Theme.of(context).focusColor),
           prefixIcon: icon,
-
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(

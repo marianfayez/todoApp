@@ -28,7 +28,7 @@ class OnboardingScreen extends StatelessWidget {
     return IntroductionScreen(
       globalBackgroundColor:  Color(0xFFF2FEFF),
       globalHeader: _buildImage("evently_logo.png"),
-      done: Image.asset("assets/icons/next.png"),
+      done: Text("Done"),
       showDoneButton: true,
       onDone:(){
         CacheHelper.saveEligibility();

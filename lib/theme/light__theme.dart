@@ -17,6 +17,7 @@ class LightTheme extends MyTheme{
   @override
   ThemeData get themeData => ThemeData(
     primaryColor: primaryColor,
+    secondaryHeaderColor: backgroundColor,
     hintColor: backgroundColor,
     focusColor: Color(0xFF7B7B7B),
     appBarTheme: AppBarTheme(
