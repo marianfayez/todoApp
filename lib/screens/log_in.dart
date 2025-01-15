@@ -9,7 +9,9 @@ import 'package:todo/widgets/custom_text_field.dart';
 class LogInScreen extends StatelessWidget {
   static String routeName = "LogIn";
 
-  const LogInScreen({super.key});
+   LogInScreen({super.key});
+  var emailController =TextEditingController();
+  var passwordController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +24,12 @@ class LogInScreen extends StatelessWidget {
           children: [
             Center(child: Image.asset("assets/images/Logo.png")),
             SizedBox(height: 16.h),
-            CustomTextField(text: "Email",icon: Icon(Icons.email),),
+            CustomTextField(text: "Email",icon: Icon(Icons.email),controller: emailController,),
             SizedBox(
               height: 16.h,
             ),
             TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                   labelText: "Password",

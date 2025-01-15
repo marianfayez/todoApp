@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/firebase/firebase_manager.dart';
 import 'package:todo/main.dart';
+import 'package:todo/models/event_model.dart';
 import 'package:todo/provider/create_event_provider.dart';
 import 'package:todo/widgets/category_event_item.dart';
 import 'package:todo/widgets/custom_text_field.dart';
@@ -10,6 +12,9 @@ import 'package:todo/widgets/custom_text_field.dart';
 class CreateEvent extends StatelessWidget {
   static String routeName = "CreateEvent";
   CreateEvent({super.key});
+
+  var titleController =TextEditingController();
+  var descriptionController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,7 @@ class CreateEvent extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ClipRRect(
                       borderRadius: BorderRadius.circular(16.r),
@@ -66,13 +71,14 @@ class CreateEvent extends StatelessWidget {
                   SizedBox(height: 16.h,),
                   Text("Title",style: Theme.of(context).textTheme.titleSmall,),
                   SizedBox(height: 8.h,),
-                  CustomTextField(text: "Event Title", icon: Icon(Icons.edit_note_rounded)),
+                  CustomTextField(text: "Event Title", icon: Icon(Icons.edit_note_rounded),controller: titleController,),
                   SizedBox(height: 8.h,),
                   Text("Description",style: Theme.of(context).textTheme.titleSmall,),
                   SizedBox(height: 8.h,),
               
                   TextField(
                     maxLines: 4,
+                    controller: descriptionController,
                     decoration: InputDecoration(
                         labelText: "Event Description",
                         labelStyle: Theme.of(context)
@@ -97,14 +103,44 @@ class CreateEvent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset("assets/icons/event.png",color: Colors.black,),
-                      Text("Choose Date",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).primaryColor),)
+                      InkWell(
+                          onTap: () async {
+                            var date = await showDatePicker(context: context,
+                                initialDate: provider.selectedDate,
+                                firstDate: DateTime.now().subtract(Duration(days: 365))
+                                ,lastDate: DateTime.now().add(Duration(days: 365)));
+                            if(date!=null){
+                              provider.changeDate(date);
+                            }
+                          },
+                          child: Text("${provider.selectedDate.toString().substring(0,10)}",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).primaryColor),))
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-        );
+          bottomNavigationBar:  Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: (){
+                EventModel model =EventModel(
+                    category: provider.selectedCategoryName, title: titleController.text,
+                    description: descriptionController.text, date: provider.selectedDate.millisecondsSinceEpoch);
+                FirebaseManager.addEvent(model).then((value) {
+                  return Navigator.pop(context);
+                },);
+              },
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)
+                  )
+              ),
+              child: Text("Add Event",style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),),
+            ),
+          ),        );
       },
     );
   }

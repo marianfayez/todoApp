@@ -8,7 +8,11 @@ import 'package:todo/widgets/custom_text_field.dart';
 class RegisterScreen extends StatelessWidget {
   static String routeName = "RegisterScreen";
 
-  const RegisterScreen({super.key});
+   RegisterScreen({super.key});
+  var nameController =TextEditingController();
+  var emailController =TextEditingController();
+  var passwordController =TextEditingController();
+  var rePasswordController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +27,14 @@ class RegisterScreen extends StatelessWidget {
           children: [
             Center(child: Image.asset("assets/images/Logo.png")),
             SizedBox(height: 16.h),
-            CustomTextField(text: "Name",icon: Icon(Icons.person),),
+            CustomTextField(text: "Name",icon: Icon(Icons.person),controller: nameController,),
             SizedBox(height: 16.h),
-            CustomTextField(text: "Email",icon: Icon(Icons.email),),
+            CustomTextField(text: "Email",icon: Icon(Icons.email),controller: emailController,),
             SizedBox(
               height: 16.h,
             ),
             TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                   labelText: "Password",
@@ -56,6 +61,7 @@ class RegisterScreen extends StatelessWidget {
               height: 16.h,
             ),
             TextField(
+              controller: rePasswordController,
               obscureText: true,
               decoration: InputDecoration(
                   labelText: "Re Password",
