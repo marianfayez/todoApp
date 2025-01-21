@@ -3,13 +3,22 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   String text;
   Icon icon;
+  Function validator;
+  Function onChange;
+
   TextEditingController controller;
-   CustomTextField({required this.text,required this.icon,required this.controller,super.key});
+   CustomTextField({required this.text,required this.validator,required this.onChange,required this.icon,required this.controller,super.key});
 
   @override
   Widget build(BuildContext context) {
-    return   TextField(
+    return   TextFormField(
       controller:controller ,
+      validator: (value) {
+        validator(value);
+      },
+      onChanged:(value) {
+        onChange();
+      },
       decoration: InputDecoration(
           labelText: text,
           labelStyle: Theme.of(context)

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo/firebase/firebase_manager.dart';
 import 'package:todo/models/event_model.dart';
 
 class ItemList extends StatelessWidget {
@@ -27,8 +28,15 @@ class ItemList extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("${model.title}",style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black,fontWeight: FontWeight.w700),),
+                  Expanded(child: Text("${model.title}",style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black,fontWeight: FontWeight.w700),)),
+                  Icon(Icons.edit,color: Theme.of(context).primaryColor,),
+                  SizedBox(width: 12.h,),
+                  InkWell(
+                      onTap:()=>FirebaseManager.deleteEvent(model.id),
+                      child: Icon(Icons.delete,color: Theme.of(context).primaryColor,)),
+                  SizedBox(width: 12.h,),
                   Icon(Icons.favorite_border,color: Theme.of(context).primaryColor,)
+
                 ],
               ),
             )
@@ -49,9 +57,7 @@ class ItemList extends StatelessWidget {
               Text(  "${convertMillisecondsToDateTime(model.date).split(",")[2].substring(0,3)}",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).primaryColor)),
-              //
-            //Text("Nov",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).primaryColor),),
-          ],
+            ],
         ),
         ),
       ],

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_manager.dart';
+import 'package:todo/provider/auth_provider.dart';
 import 'package:todo/provider/my_provider.dart';
 import 'package:todo/screens/create_event.dart';
 import 'package:todo/screens/home_screen.dart';
@@ -26,9 +27,13 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  await FirebaseFirestore.instance.enableNetwork();
   runApp(
-      ChangeNotifierProvider(
-        create: (context)=>MyProvider(),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context)=>MyProvider()),
+          ChangeNotifierProvider(create: (context)=>UserProvider())
+              ],
         child: EasyLocalization(
             supportedLocales: [Locale('en'), Locale('ar')],
             path: 'assets/translations', // <-- change the path of the translation files
@@ -43,6 +48,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider =Provider.of<MyProvider>(context);
+    var userProvider =Provider.of<UserProvider>(context);
     MyTheme light =LightTheme();
     MyTheme dark =DarkTheme();
     return  ScreenUtilInit(
@@ -54,8 +60,9 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        initialRoute: CacheHelper.getEligibility()==true?
-        LogInScreen.routeName: IntroductionScreen.routeName,
+        initialRoute:
+        CacheHelper.getEligibility()==true && userProvider.currentUser!=null?
+        HomeScreen.routeName : LogInScreen.routeName,
         theme: light.themeData,
         darkTheme: dark.themeData,
         themeMode: provider.themeMode,

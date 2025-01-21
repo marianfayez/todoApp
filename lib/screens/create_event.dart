@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +72,15 @@ class CreateEvent extends StatelessWidget {
                   SizedBox(height: 16.h,),
                   Text("Title",style: Theme.of(context).textTheme.titleSmall,),
                   SizedBox(height: 8.h,),
-                  CustomTextField(text: "Event Title", icon: Icon(Icons.edit_note_rounded),controller: titleController,),
+                  CustomTextField(text: "Event Title", icon: Icon(Icons.edit_note_rounded),controller: titleController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Title is required";
+                      }
+                      return null;
+                    },
+                    onChange: (){
+                    },),
                   SizedBox(height: 8.h,),
                   Text("Description",style: Theme.of(context).textTheme.titleSmall,),
                   SizedBox(height: 8.h,),
@@ -123,13 +132,18 @@ class CreateEvent extends StatelessWidget {
           bottomNavigationBar:  Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: (){
+              onPressed: ()async {
+                showDialog(context: context, builder: (context){
+                  return Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor,));
+                });
                 EventModel model =EventModel(
                     category: provider.selectedCategoryName, title: titleController.text,
-                    description: descriptionController.text, date: provider.selectedDate.millisecondsSinceEpoch);
-                FirebaseManager.addEvent(model).then((value) {
-                  return Navigator.pop(context);
-                },);
+                    description: descriptionController.text, date: provider.selectedDate.millisecondsSinceEpoch,
+                userId: FirebaseAuth.instance.currentUser!.uid);
+               await Future.delayed(Duration(seconds: 3));
+                FirebaseManager.addEvent(model);
+                Navigator.pop(context);
+                Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
