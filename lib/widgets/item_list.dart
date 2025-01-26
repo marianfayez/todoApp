@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/firebase/firebase_manager.dart';
 import 'package:todo/models/event_model.dart';
+import 'package:todo/screens/event_details.dart';
+import 'package:todo/screens/home_screen.dart';
 
 class ItemList extends StatelessWidget {
   EventModel model;
@@ -29,7 +31,11 @@ class ItemList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(child: Text("${model.title}",style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black,fontWeight: FontWeight.w700),)),
-                  Icon(Icons.edit,color: Theme.of(context).primaryColor,),
+                  GestureDetector(
+                      onTap: (){
+                         Navigator.pushNamed((context), EventDetails.routeName,arguments: model.id);
+                      },
+                      child: Icon(Icons.edit,color: Theme.of(context).primaryColor,)),
                   SizedBox(width: 12.h,),
                   InkWell(
                       onTap:()=>FirebaseManager.deleteEvent(model.id),

@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_manager.dart';
 import 'package:todo/main.dart';
 import 'package:todo/screens/home_screen.dart';
 import 'package:todo/screens/log_in.dart';
+
+import '../provider/auth_provider.dart';
 
 class RegisterScreen extends StatelessWidget {
   static String routeName = "RegisterScreen";
@@ -19,6 +22,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -193,8 +197,9 @@ class RegisterScreen extends StatelessWidget {
                     if(formKey.currentState!.validate()){
                       FirebaseManager.createAccount(
                           emailController.text, passwordController.text,nameController.text,
-                          (){
-                              Navigator.pop(context);
+                          () async {
+                            await userProvider.initUser();
+                            Navigator.pop(context);
                               Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false,);
                           },(){
                             showDialog(context: context,

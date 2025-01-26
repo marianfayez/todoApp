@@ -8,6 +8,8 @@ import 'package:todo/firebase/firebase_manager.dart';
 import 'package:todo/provider/auth_provider.dart';
 import 'package:todo/provider/my_provider.dart';
 import 'package:todo/screens/create_event.dart';
+import 'package:todo/screens/edit_event.dart';
+import 'package:todo/screens/event_details.dart';
 import 'package:todo/screens/home_screen.dart';
 import 'package:todo/screens/introduction_screen.dart';
 import 'package:todo/screens/log_in.dart';
@@ -17,7 +19,7 @@ import 'package:todo/theme/dark_theme.dart';
 import 'package:todo/theme/light__theme.dart';
 import 'package:todo/theme/my_theme.dart';
 import 'cache_helper/cache_helper.dart';
-import 'firebase_options.dart';
+import 'firebase/firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +63,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         initialRoute:
-        CacheHelper.getEligibility()==true && userProvider.currentUser!=null?
+        userProvider.currentUser!=null?
         HomeScreen.routeName : LogInScreen.routeName,
         theme: light.themeData,
         darkTheme: dark.themeData,
@@ -73,6 +75,9 @@ class MyApp extends StatelessWidget {
           RegisterScreen.routeName:(context)=>RegisterScreen(),
           HomeScreen.routeName:(context)=>HomeScreen(),
           CreateEvent.routeName:(context)=>CreateEvent(),
+          EventDetails.routeName:(context)=>EventDetails(),
+          EditEvent.routeName:(context)=>EditEvent(),
+
         },
       
       ),

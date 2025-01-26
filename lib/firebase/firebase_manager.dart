@@ -30,6 +30,14 @@ class FirebaseManager {
     }
   }
 
+  static Stream<DocumentSnapshot<EventModel>> getEventId(String id) {
+    var collection=getTasksCollection();
+    return collection.doc(id).snapshots().map((docSnapshot) {
+      return docSnapshot;  // Transform to the correct data type if needed
+    });
+  }
+
+
   static Future<void> deleteEvent(String id) {
     var collection = getTasksCollection();
     return collection.doc(id).delete();

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todo/models/event_model.dart';
+
+import '../firebase/firebase_manager.dart';
 
 class CreateEventProvider extends ChangeNotifier{
+
+  EventModel? eventModel;
 
   List <String> eventCategories=[
     "Birthday",
@@ -25,6 +30,9 @@ class CreateEventProvider extends ChangeNotifier{
 
   changeCategory(int index){
     selectedCategory=index;
+    notifyListeners();
+  }
+  initUser()async{
     notifyListeners();
   }
 }
