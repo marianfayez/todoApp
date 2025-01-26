@@ -18,7 +18,9 @@ class CreateEventProvider extends ChangeNotifier{
     "Sport",
     "Workshop"
   ];
+
   int selectedCategory=0;
+
   DateTime selectedDate = DateTime.now();
 
   changeDate(DateTime date){
@@ -32,7 +34,5 @@ class CreateEventProvider extends ChangeNotifier{
     selectedCategory=index;
     notifyListeners();
   }
-  initUser()async{
-    notifyListeners();
-  }
+
 }

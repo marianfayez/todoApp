@@ -37,16 +37,19 @@ class FirebaseManager {
     });
   }
 
-
   static Future<void> deleteEvent(String id) {
     var collection = getTasksCollection();
     return collection.doc(id).delete();
   }
 
   static Future<void> update(EventModel model) {
+    if (model.id == null || model.id.isEmpty) {
+      throw Exception("Document ID cannot be empty");
+    }
     var collection = getTasksCollection();
     return collection.doc(model.id).update(model.toJson());
   }
+
 
   static createAccount(String email,String password,String name,Function onSuccess,Function onLoading, Function onError) async{
     try {
@@ -116,6 +119,7 @@ class FirebaseManager {
     DocumentSnapshot<UserModel> snapshot = await collection.doc(id).get();
     return snapshot.data();
   }
+
   static Future<void> logOut(){
     return FirebaseAuth.instance.signOut();
   }

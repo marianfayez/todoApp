@@ -123,6 +123,9 @@ class _HomeTabState extends State<HomeTab> {
               if(snapshot.hasError){
                 return const Center(child: Text("Something went wrong"));
               }
+              if(snapshot.data!.size ==0 ){
+                return const Center(child: Text("No Data Found"));
+              }
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ListView.separated(itemBuilder:

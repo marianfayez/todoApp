@@ -10,16 +10,16 @@ import 'package:todo/screens/edit_event.dart';
 class EventDetails extends StatelessWidget {
   static String routeName = " EventDetails";
 
-  EventDetails({super.key});
+  const EventDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final model = ModalRoute.of(context)?.settings!.arguments as String;
+
+    var model = ModalRoute.of(context)?.settings!.arguments as String;
 
     return Scaffold(
       appBar: AppBar(title:const Text("Event Details",)),
-      body:
-      StreamBuilder<DocumentSnapshot<EventModel>> (
+      body: StreamBuilder<DocumentSnapshot<EventModel>> (
         stream: FirebaseManager.getEventId(model),
         builder: (context,snapshot){
           if(snapshot.connectionState==ConnectionState.waiting){
@@ -32,7 +32,6 @@ class EventDetails extends StatelessWidget {
           String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
           return Padding(
-
             padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
               child: Column(

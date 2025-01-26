@@ -84,7 +84,6 @@ class CreateEvent extends StatelessWidget {
                   SizedBox(height: 8.h,),
                   Text("Description",style: Theme.of(context).textTheme.titleSmall,),
                   SizedBox(height: 8.h,),
-              
                   TextField(
                     maxLines: 4,
                     controller: descriptionController,
