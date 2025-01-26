@@ -6,6 +6,7 @@ class EventModel {
   String category;
   String location;
   bool isDone;
+  bool isFavorite;
   String userId;
 
   EventModel(
@@ -15,17 +16,19 @@ class EventModel {
       required this.title,
       required this.description,
       required this.date,
-        required this.userId,
-      this.isDone = false});
+      required this.userId,
+      this.isDone = false,
+      this.isFavorite = false});
 
   EventModel.fromJson(Map<String, dynamic> json)
       : this(
           id: json["id"],
-    userId: json["userId"],
-    title: json["title"],
+          userId: json["userId"],
+          title: json["title"],
           description: json["description"],
           date: json["date"],
           isDone: json["isDone"],
+          isFavorite: json["isFavorite"],
           category: json["category"],
           location: json["location"],
         );
@@ -33,10 +36,11 @@ class EventModel {
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      "userId":userId,
+      "userId": userId,
       "title": title,
       "description": description,
       "date": date,
+      "isFavorite": isFavorite,
       "isDone": isDone,
       "location": location,
       "category": category

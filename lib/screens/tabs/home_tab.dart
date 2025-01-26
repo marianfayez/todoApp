@@ -8,9 +8,7 @@ import 'package:todo/models/event_model.dart';
 import 'package:todo/provider/auth_provider.dart';
 import 'package:todo/widgets/category_list.dart';
 import 'package:todo/widgets/item_list.dart';
-
 import '../../provider/create_event_provider.dart';
-import '../../widgets/category_event_item.dart';
 
 class HomeTab extends StatefulWidget {
    HomeTab({super.key});
@@ -131,7 +129,10 @@ class _HomeTabState extends State<HomeTab> {
                 child: ListView.separated(itemBuilder:
                     (context,index){
                   return
-                    ItemList(model: snapshot.data!.docs[index].data(),);
+                    ItemList(model: snapshot.data!.docs[index].data(),
+                    onTab: (){
+
+                    },);
                 },
                     separatorBuilder: (context,index)=>SizedBox(height: 16.h,), itemCount: snapshot.data?.docs.length??0),
               );
