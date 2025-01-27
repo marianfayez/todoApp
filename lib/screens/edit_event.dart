@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_manager.dart';
 import 'package:todo/models/event_model.dart';
-import 'package:todo/screens/home_screen.dart';
 
 import '../provider/create_event_provider.dart';
 import '../widgets/category_event_item.dart';

@@ -7,9 +7,8 @@ import 'package:todo/screens/event_details.dart';
 
 class ItemList extends StatelessWidget {
   EventModel model;
-  Function onTab;
 
-  ItemList({required this.model,required this.onTab,super.key});
+  ItemList({required this.model,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +52,13 @@ class ItemList extends StatelessWidget {
                         onTap: (){
                           model.isDone = !model.isDone;
                           FirebaseManager.update(model); // تأكد من أنك تحدث الـ event في قاعدة البيانات
-                          onTab(model.isDone);
                           },
                         child: Icon(Icons.check_box_rounded,color: Theme.of(context).primaryColor,)),
+                    SizedBox(width: 12.h,),
                     GestureDetector(
                         onTap: (){
                           model.isFavorite = !model.isFavorite;
                           FirebaseManager.update(model); // تأكد من أنك تحدث الـ event في قاعدة البيانات
-                          onTab(model.isFavorite);
                         },
                         child: Icon(model.isFavorite?Icons.favorite:Icons.favorite_border,color: Theme.of(context).primaryColor,)),
 
@@ -101,9 +99,16 @@ class ItemList extends StatelessWidget {
                       onTap: (){
                         model.isDone = !model.isDone;
                         FirebaseManager.update(model); // تأكد من أنك تحدث الـ event في قاعدة البيانات
-                        onTab(model.isDone);
                       },
-                      child: Icon(Icons.check_box_outlined,color: Theme.of(context).primaryColor,))
+                      child: Icon(Icons.check_box_outlined,color: Theme.of(context).primaryColor,)),
+                  SizedBox(width: 12.h,),
+                  GestureDetector(
+                      onTap: (){
+                        model.isFavorite = !model.isFavorite;
+                        FirebaseManager.update(model); // تأكد من أنك تحدث الـ event في قاعدة البيانات
+                      },
+                      child: Icon(model.isFavorite?Icons.favorite:Icons.favorite_border,color: Theme.of(context).primaryColor,)),
+
 
                 ],
               ),

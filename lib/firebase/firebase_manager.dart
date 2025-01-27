@@ -30,12 +30,19 @@ class FirebaseManager {
     }
   }
 
+  static Stream<QuerySnapshot<EventModel>> getEventByFav(bool isFavorite) {
+    var collection = getTasksCollection();
+      return collection.where("userId",isEqualTo: FirebaseAuth.instance.currentUser!.uid).where("isFavorite",isEqualTo: isFavorite).orderBy("date").snapshots();
+
+  }
+
   static Stream<DocumentSnapshot<EventModel>> getEventId(String id) {
     var collection=getTasksCollection();
     return collection.doc(id).snapshots().map((docSnapshot) {
       return docSnapshot;  // Transform to the correct data type if needed
     });
   }
+
 
   static Future<void> deleteEvent(String id) {
     var collection = getTasksCollection();
@@ -118,6 +125,14 @@ class FirebaseManager {
     var collection=getUsersCollection();
     DocumentSnapshot<UserModel> snapshot = await collection.doc(id).get();
     return snapshot.data();
+  }
+
+  static Future<void> updateUser(UserModel model) {
+    if (model.id == null ) {
+      throw Exception("Document ID cannot be empty");
+    }
+    var collection = getUsersCollection();
+    return collection.doc(model.id).update(model.toJson());
   }
 
   static Future<void> logOut(){

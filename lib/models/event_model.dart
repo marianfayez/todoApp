@@ -28,7 +28,7 @@ class EventModel {
           description: json["description"],
           date: json["date"],
           isDone: json["isDone"],
-          isFavorite: json["isFavorite"],
+          isFavorite: json["isFavorite"]??false,
           category: json["category"],
           location: json["location"],
         );

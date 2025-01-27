@@ -9,6 +9,7 @@ import 'package:todo/provider/auth_provider.dart';
 import 'package:todo/provider/my_provider.dart';
 import 'package:todo/screens/create_event.dart';
 import 'package:todo/screens/edit_event.dart';
+import 'package:todo/screens/edit_profile.dart';
 import 'package:todo/screens/event_details.dart';
 import 'package:todo/screens/home_screen.dart';
 import 'package:todo/screens/introduction_screen.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
           CreateEvent.routeName:(context)=>CreateEvent(),
           EventDetails.routeName:(context)=>EventDetails(),
           EditEvent.routeName:(context)=>EditEvent(),
+          EditProfile.routeName:(context)=>EditProfile(),
 
         },
       

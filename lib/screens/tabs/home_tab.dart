@@ -130,9 +130,7 @@ class _HomeTabState extends State<HomeTab> {
                     (context,index){
                   return
                     ItemList(model: snapshot.data!.docs[index].data(),
-                    onTab: (){
-
-                    },);
+                    );
                 },
                     separatorBuilder: (context,index)=>SizedBox(height: 16.h,), itemCount: snapshot.data?.docs.length??0),
               );
