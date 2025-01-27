@@ -19,50 +19,65 @@ class ProfileTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "My Account",
-          style: Theme.of(context).textTheme.titleSmall,
+      appBar:  AppBar(
+        toolbarHeight: 200.h,
+        backgroundColor: Theme.of(context).primaryColor,
+        leadingWidth: 0,
+        leading: const SizedBox(),
+        shape: OutlineInputBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(64.r))),
+        centerTitle: false,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset("assets/images/profile.png"),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("${userProvider.userModel?.name}",style: Theme.of(context).textTheme.headlineMedium,),
+                        SizedBox(height: 12.h,),
+                        Text("${userProvider.userModel?.email}",style: Theme.of(context).textTheme.headlineSmall,),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 24),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(child: Image.asset("assets/images/Logo.png")),
-              SizedBox(height: 16.h,),
-               Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                  Text("Name",style:Theme.of(context).textTheme.titleMedium),
-                  SizedBox(width: 16.w,),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16),
-                        border:Border.all(color: Colors.black) ),
-                    child:
-                    Text("${userProvider.userModel?.name}",style:Theme.of(context).textTheme.titleSmall ),),
-                ),
-                ],),
+               Text("Language",style:Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black)),
+               SizedBox(width: 16.w,),
+              PopupMenuButton<String>(itemBuilder: (context){
+                return[
+                  const PopupMenuItem<String>(value: 'Option 1',
+                    child: Text('Arabic'),),
+                  const PopupMenuItem<String>(value: 'Option 1',
+                    child: Text('English'),)
+                ];
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16),
+                    border:Border.all(color: Colors.black) ),
+                child:  Text(
+                  'Arabic', // The text that the user taps
+                  style:Theme.of(context).textTheme.titleMedium),
+                  ),),
 
-              SizedBox(height: 16.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Email",style:Theme.of(context).textTheme.titleMedium),
-                  SizedBox(width: 16.w,),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16),
-                          border:Border.all(color: Colors.black) ),
-                      child:
-                      Text("${userProvider.userModel?.email}",style:Theme.of(context).textTheme.titleSmall ),),
-                  ),
-                ],),
+
               SizedBox(height: 16.h),
               ElevatedButton(
                 onPressed: () {
@@ -94,12 +109,12 @@ class ProfileTab extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-              backgroundColor: Color(0xFFFF5659),
+              backgroundColor: const Color(0xFFFF5659),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16))),
           child: Row(
             children: [
-              Icon(Icons.logout,color: Colors.white,),
+              const Icon(Icons.logout,color: Colors.white,),
               SizedBox(width: 8.h,),
               Text(
                 "Logout",
