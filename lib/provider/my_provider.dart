@@ -13,4 +13,12 @@ class MyProvider extends ChangeNotifier{
     notifyListeners();
 }
 
+void themeLight(){
+    themeMode=ThemeMode.light;
+    notifyListeners();
+}
+  void themeDark(){
+    themeMode=ThemeMode.dark;
+    notifyListeners();
+  }
 }

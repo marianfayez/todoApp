@@ -6,18 +6,30 @@ import 'package:todo/screens/edit_profile.dart';
 
 import '../../firebase/firebase_manager.dart';
 import '../../provider/auth_provider.dart';
+import '../../provider/my_provider.dart';
 import '../log_in.dart';
 
 
-class ProfileTab extends StatelessWidget {
+class ProfileTab extends StatefulWidget {
 
    ProfileTab({super.key});
+
+  @override
+  State<ProfileTab> createState() => _ProfileTabState();
+}
+
+class _ProfileTabState extends State<ProfileTab> {
   var nameController = TextEditingController();
+
   var emailController = TextEditingController();
+  String _selectedLanguage = 'Arabic'; // Default text
+  String _selectedTheme = 'Light'; // Default text
 
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
+    var provider =Provider.of<MyProvider>(context);
+
     return Scaffold(
       appBar:  AppBar(
         toolbarHeight: 200.h,
@@ -57,31 +69,108 @@ class ProfileTab extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-               Text("Language",style:Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black)),
+               Text("Language",style:Theme.of(context).textTheme.titleMedium?.copyWith(color:
+               provider.themeMode==ThemeMode.light?Colors.black:Colors.white)),
                SizedBox(width: 16.w,),
-              PopupMenuButton<String>(itemBuilder: (context){
+              PopupMenuButton<String>(
+                onSelected: (String value){
+                  setState(() {
+                    _selectedLanguage = value;
+                  });
+                },
+                itemBuilder: (context){
                 return[
-                  const PopupMenuItem<String>(value: 'Option 1',
-                    child: Text('Arabic'),),
-                  const PopupMenuItem<String>(value: 'Option 1',
-                    child: Text('English'),)
+                   PopupMenuItem<String>(value: 'Arabic',
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width, // Ensure full width
+                      child: const Text('Arabic'),
+                    ),),
+                  const PopupMenuDivider(
+                    height: 1,
+                  ),
+                  PopupMenuItem<String>(value: 'English',
+                  child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                    child: const Text('English'),))
                 ];
               },
-              child: Container(
-                margin: EdgeInsets.only(top: 16),
+                color: Theme.of(context).secondaryHeaderColor,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: Colors.grey,width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                offset: const Offset(0, 8), // You can adjust this to position the menu vertically
+                child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 16),
                 padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(16),
-                    border:Border.all(color: Colors.black) ),
-                child:  Text(
-                  'Arabic', // The text that the user taps
-                  style:Theme.of(context).textTheme.titleMedium),
+                    border:Border.all(color: provider.themeMode==ThemeMode.light?Colors.black:Theme.of(context).primaryColor) ),
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                     _selectedLanguage, // The text that the user taps
+                      style:Theme.of(context).textTheme.titleMedium),
+                     Icon(Icons.arrow_drop_down,color: provider.themeMode==ThemeMode.light?Colors.black:Theme.of(context).primaryColor
+                    )
+                  ],
+                ),
                   ),),
+              Text("Theme",style:Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: provider.themeMode==ThemeMode.light?Colors.black:Colors.white)),
+              PopupMenuButton<String>(
+                onSelected: (String value){
+                  setState(() {
+                    _selectedTheme=value;
 
-
-              SizedBox(height: 16.h),
+                  });
+                },
+                itemBuilder: (context){
+                  return[
+                    PopupMenuItem<String>(value: 'Light',
+                      onTap: (){
+                        provider.themeLight();
+                      },
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width, // Ensure full width
+                        child: const Text('Light'),
+                      ),),
+                    const PopupMenuDivider(
+                      height: 1,
+                    ),
+                    PopupMenuItem<String>(value: 'Dark',
+                        onTap: (){
+                          provider.themeDark();
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: const Text('Dark'),))
+                  ];
+                },
+                color: Theme.of(context).secondaryHeaderColor,
+                shape: RoundedRectangleBorder(
+                  side:const  BorderSide(color: Colors.grey,width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                offset:const  Offset(0, 8), // You can adjust this to position the menu vertically
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(16),
+                      border:Border.all(color: provider.themeMode==ThemeMode.light?Colors.black:Theme.of(context).primaryColor) ),
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          _selectedTheme, // The text that the user taps
+                          style:Theme.of(context).textTheme.titleMedium),
+                  Icon(Icons.arrow_drop_down,color: provider.themeMode==ThemeMode.light?Colors.black:Theme.of(context).primaryColor)
+                    ],
+                  ),
+                ),),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, EditProfile.routeName);
+                  Navigator.pushReplacementNamed(context, EditProfile.routeName,arguments: userProvider.userModel?.id);
                 },
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -89,7 +178,7 @@ class ProfileTab extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16))),
                 child: Text(
-                  "Edit",
+                  "Edit Profile",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Colors.white, fontWeight: FontWeight.w500),
                 ),
